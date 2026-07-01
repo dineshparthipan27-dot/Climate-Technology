@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EcoMetrics | ClimateTech Hub</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            
+            --primary-color: #16a34a;
+            --primary-light: #dcfce7;
+            --primary-dark: #15803d;
+
+            --secondary-color: #0f766e;
+            --secondary-light: #ccfbf1;
+
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-color: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --error-color: #ef4444;
+            --error-bg: #fee2e2;
+            --success-color: #10b981;
+            --success-bg: #d1fae5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            position: fixed;
+            height: 100vh;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 999;
+            backdrop-filter: blur(3px);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .close-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        
+        .sidebar-mobile-profile {
+            display: none;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            gap: 12px;
+            background-color: var(--bg-color);
+        }
+
+        .sidebar-mobile-profile i {
+            font-size: 35px;
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 25px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .menu-link i {
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .menu-link:hover,
+        .menu-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .sidebar-bottom {
+            padding: 15px 0 25px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .logout-btn {
+            color: var(--error-color);
+        }
+
+        .logout-btn:hover {
+            background-color: var(--error-bg);
+            color: #dc2626;
+            border-left: 4px solid #dc2626;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 260px;
+            min-height: 100vh;
+            width: calc(100% - 260px);
+        }
+
+        .top-header {
+            background-color: #fff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 998;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .greeting h1 {
+            font-size: 24px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .welcome-name {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 600;
+            display: block;
+        }
+
+        .user-avatar i {
+            font-size: 40px;
+            color: var(--primary-color);
+        }
+
+        .view-section {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.4s ease-in-out;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .view-section.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 19px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 12px;
+            font-weight: 700;
+        }
+
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-anim.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+       
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+        }
+
+        .stat-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .stat-details h3 {
+            font-size: 26px;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .stat-details p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .content-box {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+       
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            min-width: 600px;
+        }
+
+        th,
+        td {
+            padding: 16px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .status.safe {
+            background: var(--success-bg);
+            color: var(--success-color);
+        }
+
+        .status.warning {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .status.critical {
+            background: var(--error-bg);
+            color: #991b1b;
+        }
+
+        .status.active-blue {
+            background: var(--secondary-light);
+            color: var(--secondary-color);
+        }
+
+        .timeline {
+            margin-top: 20px;
+            border-left: 3px solid var(--primary-light);
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .timeline-item h4 {
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .timeline-item p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #fff;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: var(--primary-color);
+            background-color: #f8fafc;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .error-msg {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .input-error {
+            border-color: var(--error-color) !important;
+            background-color: var(--error-bg) !important;
+        }
+
+        .input-error:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+        }
+
+        .success-msg {
+            color: var(--success-color);
+            background: var(--success-bg);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            text-align: center;
+            border: 1px solid #a7f3d0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .main-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 24px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .main-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .close-btn {
+                display: block;
+            }
+
+            .two-col-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .top-header {
+                padding: 15px;
+            }
+
+            .view-section {
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            
+            .sidebar-mobile-profile {
+                display: flex;
+            }
+
+            
+            .greeting h1 {
+                font-size: 18px;
+            }
+
+            .welcome-name {
+                font-size: 14px;
+                display: block;
+                margin-top: 4px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .content-box {
+                padding: 20px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        .logo-img {
+            width: 150px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .logo-da {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-da i {
+            font-size: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-header">
+                    <div class="logo-da">
+                        <img src="./asset/Greenlogo.webp" alt="Company Logo" class="logo-img">
+                    </div>
+                    <button class="close-btn" id="closeSidebar"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+             
+                <div class="sidebar-mobile-profile">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <div>
+                        <span class="user-role">Sustainability Officer</span>
+                        <span class="user-email display-email">Loading...</span>
+                    </div>
+                </div>
+
+                <ul class="sidebar-menu">
+                    <li><a class="menu-link active" data-target="dashboard-view"><i
+                                class="fa-solid fa-earth-americas"></i>
+                            Global Overview</a></li>
+                    <li><a class="menu-link" data-target="incident-view"><i class="fa-solid fa-smog"></i>
+                            Emissions Tracking</a></li>
+                    <li><a class="menu-link" data-target="team-view"><i class="fa-solid fa-solar-panel"></i>
+                            Energy Grid</a></li>
+                    <li><a class="menu-link" data-target="shelter-view"><i class="fa-solid fa-tree"></i>
+                            Carbon Offsets</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-bottom">
+                <a href="login.html" class="menu-link logout-btn" id="logoutBtn">
+                    <i class="fa-solid fa-power-off"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="openSidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="greeting">
+                        <h1 id="page-title">Global Overview <span class="welcome-name"></span></h1>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <div class="user-info">
+                            <span class="user-role">Sustainability Officer</span>
+                            <!-- Email populated by JS -->
+                            <span class="user-email display-email">Loading...</span>
+                        </div>
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            
+            <div id="dashboard-view" class="view-section active">
+                <section class="stats-grid scroll-anim">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fef9c3; color: #ca8a04;">
+                            <i class="fa-solid fa-temperature-arrow-up"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>+1.2°C</h3>
+                            <p>Avg Global Temp Var.</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary-color);">
+                            <i class="fa-solid fa-wind"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>415</h3>
+                            <p>Active Wind Farms</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success-bg); color: var(--success-color);">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>14.2M</h3>
+                            <p>Trees Planted (YTD)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-box scroll-anim">
+                    <h2 class="section-title">Global Carbon Emissions Trajectory (GtCO2)</h2>
+                    <div class="chart-container">
+                        <canvas id="deploymentChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            
+            <div id="incident-view" class="view-section">
+                <section class="stats-grid scroll-anim">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--error-bg); color: #991b1b;">
+                            <i class="fa-solid fa-industry"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>18</h3>
+                            <p>High Emission Zones</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fef9c3; color: #854d0e;">
+                            <i class="fa-solid fa-mask-ventilator"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>04</h3>
+                            <p>Air Quality Alerts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary-color);">
+                            <i class="fa-solid fa-satellite"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>12</h3>
+                            <p>Methane Leaks Detected</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="two-col-grid">
+                    <section class="content-box scroll-anim">
+                        <h2 class="section-title">Log Emission Anomaly</h2>
+                        <form id="incidentForm" novalidate>
+                            <div id="formSuccess" class="success-msg">
+                                <i class="fa-solid fa-circle-check"></i> Anomaly Successfully Registered in Database!
+                            </div>
+
+                            <div class="input-group">
+                                <input type="text" id="gpsInput" placeholder="Enter Coordinates or Region Name">
+                                <div class="error-msg" id="gpsError"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Valid region or coordinate is required.</div>
+                            </div>
+
+                            <div class="input-group">
+                                <select id="hazardSelect">
+                                    <option value="" selected disabled>Select Emission Type</option>
+                                    <option value="co2">Carbon Dioxide (CO2) Spike</option>
+                                    <option value="methane">Methane (CH4) Leak</option>
+                                    <option value="particulate">Particulate Matter (PM2.5)</option>
+                                    <option value="deforestation">Deforestation Activity</option>
+                                </select>
+                                <div class="error-msg" id="hazardError"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Please select an emission type.</div>
+                            </div>
+
+                            <div class="input-group">
+                                <select id="severitySelect">
+                                    <option value="" selected disabled>Select Severity Level</option>
+                                    <option value="level1">Low - Monitor</option>
+                                    <option value="level2">Medium - Investigate</option>
+                                    <option value="level3">High - Deploy Inspectors</option>
+                                    <option value="level4">Critical - Immediate Action</option>
+                                </select>
+                                <div class="error-msg" id="severityError"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Please select the severity level.</div>
+                            </div>
+
+                            <div class="input-group">
+                                <textarea id="remarksInput" rows="3"
+                                    placeholder="Additional contextual data... (Optional)"></textarea>
+                            </div>
+
+                            <button type="submit" id="submitBtn" class="main-btn">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload to Network
+                            </button>
+                        </form>
+                    </section>
+
+                    <section class="content-box scroll-anim">
+                        <h2 class="section-title">Live Sensor Data Feed</h2>
+                        <ul class="simple-list" style="list-style: none;">
+                            <li>
+                                <div>
+                                    <i class="fa-solid fa-fire"
+                                        style="color: #991b1b; margin-right: 10px; font-size: 18px;"></i>
+                                    <strong style="font-size: 15px;">Amazon Rainforest - Grid 7A</strong><br>
+                                    <span style="font-size:13px; color:var(--text-muted); padding-left: 30px;">Thermal
+                                        signatures detected indicating illegal burning.</span>
+                                </div><br>
+                                <span class="status critical">Critical</span>
+                            </li>
+                            <br>
+                            <li>
+                                <div>
+                                    <i class="fa-solid fa-smog"
+                                        style="color: #854d0e; margin-right: 10px; font-size: 18px;"></i>
+                                    <strong style="font-size: 15px;">Industrial Sector - East Asia</strong><br>
+                                    <span style="font-size:13px; color:var(--text-muted); padding-left: 30px;">PM2.5
+                                        levels exceeding safe limits by 300%.</span>
+                                </div><br>
+                                <span class="status warning">Investigating</span>
+                            </li><br>
+                            <li>
+                                <div>
+                                    <i class="fa-solid fa-check-double"
+                                        style="color: var(--primary-color); margin-right: 10px; font-size: 18px;"></i>
+                                    <strong style="font-size: 15px;">Direct Air Capture Facility Beta</strong><br>
+                                    <span style="font-size:13px; color:var(--text-muted); padding-left: 30px;">Operating
+                                        at 105% efficiency. CO2 capture targets exceeded.</span>
+                                </div><br>
+                                <span class="status safe">Optimal</span>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            
+            <div id="team-view" class="view-section">
+                <section class="stats-grid scroll-anim">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary-color);">
+                            <i class="fa-solid fa-solar-panel"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>1.2 GW</h3>
+                            <p>Solar Output</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>850 MW</h3>
+                            <p>Hydro Output</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f1f5f9; color: #475569;">
+                            <i class="fa-solid fa-battery-full"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>92%</h3>
+                            <p>Grid Storage Capacity</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="two-col-grid">
+                    <section class="content-box scroll-anim">
+                        <h2 class="section-title">Grid Status Log</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <h4><i class="fa-solid fa-wind"
+                                        style="color: var(--secondary-color); margin-right:8px;"></i> Offshore Wind Farm
+                                    Alpha</h4>
+                                <p>14:30 | Wind speeds optimal. Turbine array generating at peak capacity.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4><i class="fa-solid fa-screwdriver-wrench"
+                                        style="color: #854d0e; margin-right:8px;"></i> Solar Facility Delta</h4>
+                                <p>14:15 | Scheduled panel cleaning underway. Efficiency expected to rise by 4%
+                                    post-maintenance.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4><i class="fa-solid fa-bolt"
+                                        style="color: var(--primary-dark); margin-right:8px;"></i> Central Battery Node
+                                </h4>
+                                <p style="color: var(--primary-dark); font-weight: 600;">13:50 | Discharging surplus
+                                    energy to local municipal grid during peak demand.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            
+            <div id="shelter-view" class="view-section">
+                <section class="stats-grid scroll-anim">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success-bg); color: var(--success-color);">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>142</h3>
+                            <p>Active Offset Projects</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"
+                            style="background: var(--secondary-light); color: var(--secondary-color);">
+                            <i class="fa-solid fa-hand-holding-droplet"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>4.5M</h3>
+                            <p>Tons CO2 Captured</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f1f5f9; color: #475569;">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>82%</h3>
+                            <p>Towards Annual Goal</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-box scroll-anim">
+                    <h2 class="section-title">Global Offset Project Matrix</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Project ID</th>
+                                    <th>Project Details</th>
+                                    <th>Managing Partner</th>
+                                    <th>CO2 Sequestered</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>#SEQ-BR-01</strong></td>
+                                    <td><i class="fa-solid fa-tree" style="color:var(--primary-color);"></i> Amazon
+                                        Reforestation Initiative</td>
+                                    <td>EcoTrust NGO</td>
+                                    <td><span
+                                            style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 6px; font-weight: 600;">1.2M
+                                            Tons</span></td>
+                                    <td><span class="status safe">On Track</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#DAC-IS-04</strong></td>
+                                    <td><i class="fa-solid fa-fan" style="color:var(--text-muted);"></i> Iceland Direct
+                                        Air Capture</td>
+                                    <td>CarbonTech Solutions</td>
+                                    <td><span
+                                            style="background: var(--error-bg); border: 1px solid #fca5a5; color: #991b1b; padding: 4px 8px; border-radius: 6px; font-weight: 600;">150K
+                                            Tons</span></td>
+                                    <td><span class="status critical">Underperforming</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#KELP-PAC-02</strong></td>
+                                    <td><i class="fa-solid fa-water" style="color:var(--secondary-color);"></i> Pacific
+                                        Kelp Forest Restoration</td>
+                                    <td>OceanBlue Foundation</td>
+                                    <td><span
+                                            style="background: #fef9c3; border: 1px solid #fde047; color: #854d0e; padding: 4px 8px; border-radius: 6px; font-weight: 600;">450K
+                                            Tons</span></td>
+                                    <td><span class="status warning">Scaling Up</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+       
+
+        if (!localStorage.getItem("UserMail")) {
+            localStorage.setItem("UserMail", "admin@ecometrics.earth");
+        }
+
+      
+        const email = localStorage.getItem("UserMail");
+
+       
+        const extractedName = email.split("@")[0];
+        const formattedName = extractedName.charAt(0).toUpperCase() + extractedName.replace(/[._0-9]/g, ' ').slice(1);
+
+       
+        document.querySelectorAll(".display-email").forEach(el => el.textContent = email);
+
+       
+        const welcomeEl = document.querySelector(".welcome-name");
+        if (welcomeEl) {
+            welcomeEl.innerHTML = `| Welcome, <strong>${formattedName}</strong> 👋`;
+        }
+
+        
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openSidebarBtn = document.getElementById('openSidebar');
+        const closeSidebarBtn = document.getElementById('closeSidebar');
+
+        function openSidebar() { sidebar.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeSidebar() { sidebar.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+        openSidebarBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        const menuLinks = document.querySelectorAll('.sidebar-menu .menu-link');
+        const views = document.querySelectorAll('.view-section');
+        const pageTitle = document.getElementById('page-title');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                if (this.classList.contains('active')) return;
+
+                menuLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                views.forEach(v => v.classList.remove('active'));
+
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+
+                // Update Header Title dynamically based on menu click
+                pageTitle.innerHTML = `${this.innerText} <span class="welcome-name" style="font-size:14px; font-weight:normal;">| System Nominal</span>`;
+
+                if (window.innerWidth <= 992) { closeSidebar(); }
+                triggerAnimations();
+            });
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem("UserMail"); 
+            
+            window.location.href = "login.html"; 
+        });
+
+        
+        const ctx = document.getElementById('deploymentChart').getContext('2d');
+        const deploymentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: 'Global CO2 Emissions (Gigatons)',
+                    data: [36.6, 36.8, 34.8, 36.3, 36.8, 35.2],
+                    borderColor: '#16a34a',
+                    backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#16a34a',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, min: 30, grid: { color: '#e2e8f0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('show'); }
+            });
+        }, { threshold: 0.1 });
+
+        function triggerAnimations() {
+            const animElements = document.querySelectorAll('.scroll-anim');
+            animElements.forEach(el => {
+                el.classList.remove('show');
+                observer.observe(el);
+            });
+        }
+        triggerAnimations();
+
+       
+        document.getElementById('incidentForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            
+            const gpsInput = document.getElementById('gpsInput');
+            const hazardSelect = document.getElementById('hazardSelect');
+            const severitySelect = document.getElementById('severitySelect');
+            const submitBtn = document.getElementById('submitBtn');
+
+            
+            const gpsError = document.getElementById('gpsError');
+            const hazardError = document.getElementById('hazardError');
+            const severityError = document.getElementById('severityError');
+            const formSuccess = document.getElementById('formSuccess');
+
+            let isValid = true;
+
+            
+            [gpsInput, hazardSelect, severitySelect].forEach(el => el.classList.remove('input-error'));
+            [gpsError, hazardError, severityError].forEach(el => el.style.display = 'none');
+            formSuccess.style.display = 'none';
+
+           
+            const showError = (inputEl, errorEl, message) => {
+                inputEl.classList.add('input-error');
+                errorEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
+                errorEl.style.display = 'block';
+                isValid = false;
+            };
+
+            
+            const gpsValue = gpsInput.value.trim();
+            if (gpsValue === '') {
+                showError(gpsInput, gpsError, "Coordinates or Region Name is required.");
+            } else if (gpsValue.length < 3) {
+                showError(gpsInput, gpsError, "Region name must be at least 3 characters.");
+            }
+
+            
+            if (hazardSelect.value === '') {
+                showError(hazardSelect, hazardError, "Please select an emission type from the list.");
+            }
+            if (severitySelect.value === '') {
+                showError(severitySelect, severityError, "Please assess and select the severity level.");
+            }
+
+           
+            if (isValid) {
+                
+                const originalBtnContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+
+                
+                setTimeout(() => {
+                    formSuccess.style.display = 'block';
+
+                   
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+
+                    
+                    this.reset();
+
+                    
+                    setTimeout(() => {
+                        window.location.href = "404.html";
+                        formSuccess.style.display = 'none';
+                    }, 100);
+
+                   
+                    console.log("Anomaly Data Securely Logged:", {
+                        userEmail: email,
+                        location: gpsValue,
+                        emissionType: hazardSelect.value,
+                        severity: severitySelect.value,
+                        remarks: document.getElementById('remarksInput').value,
+                        timestamp: new Date().toISOString()
+                    });
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+
+</html>

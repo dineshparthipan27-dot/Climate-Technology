@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Client Portal | Dashboard</title>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+           
+            --primary: #2563eb;
+            
+            --primary-light: #dbeafe;
+            
+            --primary-dark: #1d4ed8;
+            
+
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --border: #e2e8f0;
+
+            --danger: #ef4444;
+            --danger-bg: #fee2e2;
+            --success: #10b981;
+            --success-bg: #d1fae5;
+            --warning: #f59e0b;
+            --warning-bg: #fef3c7;
+            --info: #0ea5e9;
+            --info-bg: #e0f2fe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+       
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+    
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-sidebar {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 24px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 280px);
+        }
+
+        .header {
+            background-color: var(--bg-surface);
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 998;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+      
+        .content-wrapper {
+            padding: 32px;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-surface);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+       
+        .stat-card.mini {
+            padding: 16px 20px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.mini {
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        .stat-info.mini h3 {
+            font-size: 22px;
+        }
+
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background: var(--bg-body);
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge.active {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .badge.success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .badge.pending {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .badge.danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .badge.neutral {
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 4px;
+            height: 8px;
+            margin-top: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .action-btn-sm {
+            padding: 8px 14px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .action-btn-sm:hover {
+            /* background: var(--primary); */
+            /* color: white; */
+        }
+
+        .action-btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .action-btn-outline:hover {
+            background: var(--bg-body);
+        }
+
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--danger);
+            background-color: var(--danger-bg);
+        }
+
+        .error-text {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background-color: var(--success-bg);
+            color: var(--success);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 999;
+            backdrop-filter: blur(2px);
+        }
+
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .overlay.show {
+                display: block;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .user-info {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 16px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .logo-img {
+            width: 150px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .logo-da {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-da i {
+            font-size: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+
+      
+        <div class="overlay" id="sidebarOverlay"></div>
+
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-da">
+                    <img src="./asset/Greenlogo.webp" alt="Company Logo" class="logo-img">
+                </div>
+                <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <ul class="nav-links">
+                <li><a class="nav-item active" data-target="view-dashboard"><i class="fa-solid fa-chart-pie"></i>
+                        Dashboard</a></li>
+                <li><a class="nav-item" data-target="view-projects"><i class="fa-solid fa-folder-open"></i> My
+                        Projects</a></li>
+                <li><a class="nav-item" data-target="view-invoices"><i class="fa-solid fa-file-invoice-dollar"></i>
+                        Invoices</a></li>
+                <li><a class="nav-item" data-target="view-support"><i class="fa-solid fa-ticket"></i> Support
+                        Tickets</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="nav-item" style="color: var(--danger);" id="logoutBtn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+      
+        <main class="main-content">
+
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="openSidebar"><i class="fa-solid fa-bars"></i></button>
+                    <h2 id="headerTitle">Dashboard</h2>
+                </div>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name" id="displayClientName">Loading...</span>
+                        <span class="user-role" id="displayClientEmail">Loading...</span>
+                    </div>
+                    <div class="avatar" id="avatarInitials">--</div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+
+                
+                <div id="view-dashboard" class="view-section active">
+                    <h1 class="page-title">Welcome back, <span id="welcomeName"
+                            style="color: var(--primary);">Client</span>! 👋</h1>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: var(--info-bg); color: var(--info);">
+                                <i class="fa-solid fa-rocket"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>03</h3>
+                                <p>Active Projects</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: var(--warning-bg); color: var(--warning);">
+                                <i class="fa-solid fa-file-invoice"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>$4,250</h3>
+                                <p>Outstanding Balance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: var(--success-bg); color: var(--success);">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>02</h3>
+                                <p>Unread Messages</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="card-title">Recent Activity</h2>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Activity</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Draft designs uploaded for Review</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">E-commerce Platform
+                                                Overhaul</span></td>
+                                        <td>Today, 10:30 AM</td>
+                                        <td><span class="badge pending">Action Required</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Invoice #INV-2026-089 Generated</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Monthly Retainer</span>
+                                        </td>
+                                        <td>Yesterday</td>
+                                        <td><span class="badge success">Paid</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="view-projects" class="view-section">
+                    <h1 class="page-title">Project Portfolio</h1>
+
+                  
+                    <div class="stats-grid"
+                        style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 24px;">
+                        <div class="stat-card mini">
+                            <div class="stat-info mini">
+                                <h3>12</h3>
+                                <p>Total Projects</p>
+                            </div>
+                        </div>
+                        <div class="stat-card mini">
+                            <div class="stat-info mini">
+                                <h3>03</h3>
+                                <p>In Progress</p>
+                            </div>
+                        </div>
+                        <div class="stat-card mini">
+                            <div class="stat-info mini">
+                                <h3>08</h3>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <span>All Projects</span>
+                            <a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                    class="fa-solid fa-filter"></i>
+                                Filter</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Project Details</th>
+                                        <th>Manager</th>
+                                        <th>Target Deadline</th>
+                                        <th style="min-width: 150px;">Milestone Progress</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>E-commerce Platform Overhaul</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Phase 2: Frontend
+                                                Development</span></td>
+                                        <td><i class="fa-solid fa-circle-user" style="color:var(--text-muted)"></i>
+                                            Sarah Jenkins</td>
+                                        <td>Oct 15, 2026</td>
+                                        <td>
+                                            <span>65%</span>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar" style="width: 65%; background: var(--info);">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge active">In Progress</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SEO Optimization Q3</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Content Strategy</span>
+                                        </td>
+                                        <td><i class="fa-solid fa-circle-user" style="color:var(--text-muted)"></i> Mike
+                                            Ross</td>
+                                        <td>Nov 01, 2026</td>
+                                        <td>
+                                            <span>90%</span>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar"
+                                                    style="width: 90%; background: var(--warning);"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge pending">Review Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Mobile App UI Wireframes</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Initial Ideation</span>
+                                        </td>
+                                        <td><i class="fa-solid fa-circle-user" style="color:var(--text-muted)"></i>
+                                            David Kim</td>
+                                        <td>Dec 10, 2026</td>
+                                        <td>
+                                            <span>20%</span>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar" style="width: 20%; background: var(--info);">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge active">In Progress</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Database Migration Setup</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Infrastructure</span>
+                                        </td>
+                                        <td><i class="fa-solid fa-circle-user" style="color:var(--text-muted)"></i>
+                                            Sarah Jenkins</td>
+                                        <td>Jan 15, 2027</td>
+                                        <td>
+                                            <span>5%</span>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar" style="width: 5%; background: var(--border);">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge neutral">On Hold</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Brand Identity Guidelines</strong><br><span
+                                                style="color:var(--text-muted); font-size:12px;">Final Handover
+                                                Complete</span></td>
+                                        <td><i class="fa-solid fa-circle-user" style="color:var(--text-muted)"></i>
+                                            Emily Chen</td>
+                                        <td>Sep 10, 2026</td>
+                                        <td>
+                                            <span>100%</span>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar"
+                                                    style="width: 100%; background: var(--success);"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge success">Completed</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="view-invoices" class="view-section">
+                    <h1 class="page-title">Billing & Invoices</h1>
+
+                   
+                    <div class="stats-grid"
+                        style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 24px;">
+                        <div class="stat-card mini">
+                            <div class="stat-info mini">
+                                <h3>$6,050.00</h3>
+                                <p>Total Outstanding</p>
+                            </div>
+                        </div>
+                        <div class="stat-card mini">
+                            <div class="stat-info mini">
+                                <h3>$28,450.00</h3>
+                                <p>Paid This Year</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <span>Invoice History</span>
+                            <a href="404.html" class="action-btn-sm"><i class="fa-solid fa-credit-card"></i> Pay
+                                Outstanding</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Invoice #</th>
+                                        <th>Description</th>
+                                        <th>Date Issued</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>INV-2026-092</strong></td>
+                                        <td>Web Hosting & Maintenance (Oct)</td>
+                                        <td>Oct 05, 2026</td>
+                                        <td>$1,800.00</td>
+                                        <td><span class="badge danger">Overdue</span></td>
+                                        <td><a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                                    class="fa-solid fa-download"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>INV-2026-091</strong></td>
+                                        <td>E-commerce Development Phase 1</td>
+                                        <td>Oct 01, 2026</td>
+                                        <td>$4,250.00</td>
+                                        <td><span class="badge pending">Due in 5 Days</span></td>
+                                        <td><a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                                    class="fa-solid fa-download"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>INV-2026-089</strong></td>
+                                        <td>Monthly SEO Retainer (Sep)</td>
+                                        <td>Sep 01, 2026</td>
+                                        <td>$2,100.00</td>
+                                        <td><span class="badge success">Paid</span></td>
+                                        <td><a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                                    class="fa-solid fa-download"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>INV-2026-085</strong></td>
+                                        <td>Brand Identity Package Final</td>
+                                        <td>Aug 15, 2026</td>
+                                        <td>$3,500.00</td>
+                                        <td><span class="badge success">Paid</span></td>
+                                        <td><a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                                    class="fa-solid fa-download"></i> PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>INV-2026-080</strong></td>
+                                        <td>Monthly SEO Retainer (Aug)</td>
+                                        <td>Aug 01, 2026</td>
+                                        <td>$2,100.00</td>
+                                        <td><span class="badge success">Paid</span></td>
+                                        <td><a href="404.html" class="action-btn-sm action-btn-outline"><i
+                                                    class="fa-solid fa-download"></i> PDF</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div id="view-support" class="view-section">
+                    <h1 class="page-title">Support Center</h1>
+                    <div class="card" style="max-width: 700px;">
+                        <h2 class="card-title">Open a New Ticket</h2>
+
+                        <div id="formSuccess" class="alert-success">
+                            <i class="fa-solid fa-circle-check"></i> Ticket submitted successfully! Our team will
+                            contact you shortly.
+                        </div>
+
+                        <form id="supportForm" novalidate>
+                            <div class="form-group">
+                                <label for="subjectInput">Subject <span style="color:var(--danger)">*</span></label>
+                                <input type="text" id="subjectInput" class="form-control"
+                                    placeholder="E.g. Requesting edit access">
+                                <div class="error-text" id="subjectError"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Subject is required (min 5 chars).</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categorySelect">Category <span style="color:var(--danger)">*</span></label>
+                                <select id="categorySelect" class="form-control">
+                                    <option value="" selected disabled>Select a category...</option>
+                                    <option value="billing">Billing & Invoices</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="project">Project Update Request</option>
+                                </select>
+                                <div class="error-text" id="categoryError"><i
+                                        class="fa-solid fa-circle-exclamation"></i> Please select a category.</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="messageInput">Message <span style="color:var(--danger)">*</span></label>
+                                <textarea id="messageInput" class="form-control" rows="5"
+                                    placeholder="Describe your issue in detail..."></textarea>
+                                <div class="error-text" id="messageError"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Message cannot be empty.</div>
+                            </div>
+
+                            <button type="submit" id="submitBtn" class="btn-submit">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Ticket
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        
+        const storedEmail = localStorage.getItem("UserMail") || "alex.morgan@clientco.com";
+        const namePart = storedEmail.split("@")[0];
+        const formattedName = namePart.split(/[._-]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        const initials = formattedName.split(' ').map(n => n[0]).join('').substring(0, 2);
+
+        document.getElementById('displayClientEmail').textContent = storedEmail;
+        document.getElementById('displayClientName').textContent = formattedName;
+        document.getElementById('welcomeName').textContent = formattedName.split(' ')[0];
+        document.getElementById('avatarInitials').textContent = initials;
+
+
+       
+        const menuLinks = document.querySelectorAll('.nav-item[data-target]');
+        const views = document.querySelectorAll('.view-section');
+        const headerTitle = document.getElementById('headerTitle');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (this.classList.contains('active')) return;
+
+                menuLinks.forEach(l => l.classList.remove('active'));
+                views.forEach(v => v.classList.remove('active'));
+
+                this.classList.add('active');
+
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+
+                headerTitle.textContent = this.textContent.trim();
+
+                if (window.innerWidth <= 768) {
+                    toggleMenu();
+                }
+            });
+        });
+
+
+       
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : 'auto';
+        }
+
+        document.getElementById('openSidebar').addEventListener('click', toggleMenu);
+        document.getElementById('closeSidebar').addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+
+        
+        document.getElementById('supportForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const subject = document.getElementById('subjectInput');
+            const category = document.getElementById('categorySelect');
+            const message = document.getElementById('messageInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const successAlert = document.getElementById('formSuccess');
+
+            const subjectErr = document.getElementById('subjectError');
+            const categoryErr = document.getElementById('categoryError');
+            const messageErr = document.getElementById('messageError');
+
+            let isValid = true;
+
+            [subject, category, message].forEach(el => el.classList.remove('is-invalid'));
+            [subjectErr, categoryErr, messageErr].forEach(el => el.style.display = 'none');
+            successAlert.style.display = 'none';
+
+            if (subject.value.trim().length < 5) {
+                subject.classList.add('is-invalid');
+                subjectErr.style.display = 'block';
+                isValid = false;
+            }
+            if (category.value === '') {
+                category.classList.add('is-invalid');
+                categoryErr.style.display = 'block';
+                isValid = false;
+            }
+            if (message.value.trim().length < 10) {
+                message.classList.add('is-invalid');
+                messageErr.style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    successAlert.style.display = 'block';
+                    this.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    window.location.href = "404.html";
+
+                    setTimeout(() => { successAlert.style.display = 'none'; }, 4000);
+                }, 1200);
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem("ClientMail");
+           
+            window.location.href = "login.html";
+
+        });
+    </script>
+</body>
+
+</html>

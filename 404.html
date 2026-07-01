@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Climate Technology</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+
+            background: #071923;
+            overflow: hidden;
+
+        }
+
+
+
+        .background {
+
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+
+        }
+
+        .background::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            background: #10b981;
+
+            border-radius: 50%;
+
+            filter: blur(150px);
+
+            opacity: .25;
+
+            left: -150px;
+            top: -150px;
+
+            animation: move1 10s ease-in-out infinite;
+
+        }
+
+        .background::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            background: #06b6d4;
+
+            border-radius: 50%;
+
+            filter: blur(150px);
+
+            opacity: .25;
+
+            right: -150px;
+            bottom: -150px;
+
+            animation: move2 10s ease-in-out infinite;
+
+        }
+
+        @keyframes move1 {
+
+            50% {
+
+                transform: translate(80px, 60px);
+
+            }
+
+        }
+
+        @keyframes move2 {
+
+            50% {
+
+                transform: translate(-80px, -60px);
+
+            }
+
+        }
+
+
+        .grid {
+
+            position: absolute;
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+
+            background-size: 50px 50px;
+
+        }
+
+
+
+        .container {
+
+            position: relative;
+
+            z-index: 10;
+
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px;
+
+        }
+
+        .card {
+
+            max-width: 700px;
+
+            width: 100%;
+
+            padding: 60px 50px;
+
+            background: rgba(255, 255, 255, .08);
+
+            backdrop-filter: blur(25px);
+
+            border: 1px solid rgba(255, 255, 255, .15);
+
+            border-radius: 35px;
+
+            text-align: center;
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+
+            animation: fadeUp 1s ease;
+
+        }
+
+        .badge {
+
+            display: inline-block;
+
+            padding: 10px 24px;
+
+            background: rgba(16, 185, 129, .15);
+
+            color: #10b981;
+
+            border-radius: 40px;
+
+            font-weight: 600;
+
+            margin-bottom: 25px;
+
+        }
+
+        .earth {
+
+            font-size: 90px;
+
+            margin-bottom: 25px;
+
+            animation: float 5s ease-in-out infinite;
+
+        }
+
+        .number {
+
+            font-size: 120px;
+
+            font-weight: 800;
+
+            line-height: 1;
+
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 20px;
+
+        }
+
+        h1 {
+
+            font-size: 42px;
+
+            color: #fff;
+
+            margin-bottom: 20px;
+
+        }
+
+        p {
+
+            color: #cbd5e1;
+
+            font-size: 18px;
+
+            line-height: 1.8;
+
+            margin-bottom: 40px;
+
+        }
+
+
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .btn {
+
+            padding: 16px 34px;
+
+            border-radius: 50px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            transition: .35s;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+        .primary {
+
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+
+            color: #fff;
+
+        }
+
+        .secondary {
+
+            border: 2px solid rgba(255, 255, 255, .15);
+
+            color: #fff;
+
+        }
+
+        .btn:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 18px 35px rgba(16, 185, 129, .35);
+
+        }
+
+        .btn i {
+
+            transition: .3s;
+
+        }
+
+        .btn:hover i {
+
+            transform: translateX(6px);
+
+        }
+
+
+        .particle {
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #10b981;
+
+            opacity: .4;
+
+            animation: particle 12s linear infinite;
+
+        }
+
+        .p1 {
+
+            left: 10%;
+            top: 90%;
+
+        }
+
+        .p2 {
+
+            left: 25%;
+            top: 80%;
+
+            animation-delay: 2s;
+
+        }
+
+        .p3 {
+
+            left: 50%;
+            top: 95%;
+
+            animation-delay: 4s;
+
+        }
+
+        .p4 {
+
+            left: 75%;
+            top: 85%;
+
+            animation-delay: 6s;
+
+        }
+
+        .p5 {
+
+            left: 90%;
+            top: 92%;
+
+            animation-delay: 8s;
+
+        }
+
+        @keyframes particle {
+
+            0% {
+
+                transform: translateY(0);
+
+                opacity: 0;
+
+            }
+
+            20% {
+
+                opacity: .5;
+
+            }
+
+            100% {
+
+                transform: translateY(-900px);
+
+                opacity: 0;
+
+            }
+
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+
+                transform: translateY(0);
+
+            }
+
+            50% {
+
+                transform: translateY(-18px);
+
+            }
+
+        }
+
+        @keyframes fadeUp {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+
+        @media(max-width:768px) {
+
+            .card {
+
+                padding: 45px 25px;
+
+            }
+
+            .number {
+
+                font-size: 80px;
+
+            }
+
+            h1 {
+
+                font-size: 30px;
+
+            }
+
+            p {
+
+                font-size: 16px;
+
+            }
+
+            .earth {
+
+                font-size: 70px;
+
+            }
+
+            .buttons {
+
+                flex-direction: column;
+
+            }
+
+            .btn {
+
+                justify-content: center;
+
+                width: 100%;
+
+            }
+
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .35s ease;
+        }
+
+
+
+        .secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, .2);
+        }
+
+        .secondary:hover {
+            background: rgba(255, 255, 255, .08);
+            border-color: #10b981;
+            color: #10b981;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, .2);
+        }
+
+
+
+        .primary {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #ffffff;
+            border: none;
+        }
+
+        .primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, .35);
+        }
+
+
+
+        .btn i {
+            transition: .3s;
+        }
+
+        .secondary:hover i {
+            transform: translateX(-5px);
+        }
+
+        .primary:hover i {
+            transform: translateY(-2px);
+        }
+
+
+
+        @media (max-width:768px) {
+
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <div class="grid"></div>
+
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="badge">
+
+                Climate Technology
+
+            </div>
+
+            <div class="earth">
+
+                🌍
+
+            </div>
+
+            <div class="number">
+
+                404
+
+            </div>
+
+            <h1>
+
+                Oops! The Climate Route Ends Here
+
+            </h1>
+
+            <p>
+
+                The page you're looking for may have been moved,
+                deleted, or the URL is incorrect.
+                Let's guide you back to explore our innovative climate solutions.
+
+            </p>
+
+            <div class="buttons">
+
+
+                <button type="button" class="btn secondary" onclick="history.back();">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+
+
+                <a href="index.html" class="btn primary">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Back to Home</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
