@@ -1,4 +1,4 @@
-/
+
 const navbar = document.getElementById('navbar');
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const mobileMenu = document.getElementById('mobile-menu');

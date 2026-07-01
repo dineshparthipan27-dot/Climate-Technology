@@ -6,7 +6,11 @@
     box-sizing: border-box;
 
 }
-
+@media (max-width:768px) {
+    .desktop-btn{
+        display: none !important;
+    }
+}
 /* --- SECTION BASE --- */
 .services-hero {
   position: relative;
