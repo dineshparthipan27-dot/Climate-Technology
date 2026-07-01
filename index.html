@@ -47,104 +47,115 @@
 
 
   <section class="hero-section" id="home">
+  
 
+  <div class="particles-container">
+    <div class="particle leaf-1"></div>
+    <div class="particle leaf-2"></div>
+    <div class="particle leaf-3"></div>
+    <div class="particle leaf-4"></div>
+  </div>
 
-    <div class="hero-bg-slider">
+ 
+  <div class="hero-bg-slider">
+    <div class="slide active" style="background-image: url('./asset/Climate\ 1.webp');"></div>
+    <div class="slide" style="background-image: url('./asset/Climate\ 2.webp');"></div>
+    <div class="slide" style="background-image: url('./asset/Climate\ 3.webp');"></div>
+    <div class="overlay"></div>
+  </div>
 
-      <div class="slide active" style="background-image: url('./asset/Climate\ 1.webp');"></div>
-
-      <div class="slide" style="background-image: url('./asset/Climate\ 2.webp');"></div>
-
-      <div class="slide" style="background-image: url('./asset/Climate\ 3.webp');"></div>
-
-
-      <div class="overlay"></div>
+  
+  <div class="hero-container" id="parallax-content">
+    <div class="reveal-wrapper">
+      <div class="badge reveal-element">🌍 The Future is Green</div>
     </div>
 
-
-    <div class="hero-container" id="parallax-content">
-
-
-      <div class="reveal-wrapper">
-        <div class="badge reveal-element">🌍 The Future is Green</div>
-      </div>
-
-      <div class="reveal-wrapper">
-        <h1 class="title reveal-element delay-1">
-          Innovating for a <br />
-          <span class="gradient-text">Greener Tomorrow</span>
-        </h1>
-      </div>
-
-      <div class="reveal-wrapper">
-        <p class="subtitle reveal-element delay-2">
-          Next-generation climate technology to track, reduce, and reverse carbon footprints. Join the revolution for a
-          sustainable planet.
-        </p>
-      </div>
-
-      <div class="reveal-wrapper">
-        <div class="hero-buttons reveal-element delay-3">
-          <a href="404.html" class="btn btn-primary glow-effect">View Solutions</a>
-          <a href="404.html" class="btn btn-glass">
-            ▶ Watch How It Works
-          </a>
-        </div>
-      </div>
-
+    <div class="reveal-wrapper">
+      <h1 class="title reveal-element delay-1">
+        Innovating for a <br />
+        <span class="gradient-text animated-gradient">Greener Tomorrow</span>
+      </h1>
     </div>
-  </section>
 
+    <div class="reveal-wrapper">
+      <p class="subtitle reveal-element delay-2">
+        Next-generation climate technology to track, reduce, and reverse carbon footprints. Join the revolution for a
+        sustainable planet.
+      </p>
+    </div>
 
-  <section class="problem-section" id="impact">
-    <div class="problem-container">
-
-
-      <div class="problem-text scroll-reveal">
-        <div class="badge-warning">⚠️ The Crisis</div>
-        <h2 class="section-title">
-          We are out of time for <br> <span class="text-red">incremental change.</span>
-        </h2>
-        <p class="section-description">
-          Greenhouse gas emissions have reached critical levels. Extreme weather, rising sea levels, and biodiversity
-          loss are no longer future threats—they are happening right now. Technology is our most powerful weapon to
-          reverse this trend before we hit the irreversible 1.5°C threshold.
-        </p>
+    <div class="reveal-wrapper">
+      <div class="hero-buttons reveal-element delay-3">
+        <a href="404.html" class="btn btn-primary glow-effect">View Solutions</a>
+        <a href="404.html" class="btn btn-glass">
+          <span class="play-icon">▶</span> Watch How It Works
+        </a>
       </div>
+    </div>
+  </div>
 
+  
+ 
+</section>
 
-      <div class="problem-stats">
+<section class="problem-section" id="impact">
+  <!-- Ambient background heat glow -->
+  <div class="heat-glow"></div>
+  
+  <div class="problem-container">
+    
+    <!-- Left Column: Text -->
+    <div class="problem-text scroll-reveal">
+      <div class="badge-warning">
+        <span class="pulse-dot"></span> ⚠️ The Crisis
+      </div>
+      <h2 class="section-title">
+        We are out of time for <br> 
+        <span class="text-red animated-text">incremental change.</span>
+      </h2>
+      <p class="section-description">
+        Greenhouse gas emissions have reached critical levels. Extreme weather, rising sea levels, and biodiversity
+        loss are no longer future threats—they are happening right now. Technology is our most powerful weapon to
+        reverse this trend before we hit the irreversible 1.5°C threshold.
+      </p>
+    </div>
 
-
-        <div class="stat-card scroll-reveal delay-1">
-          <div class="stat-icon">🌡️</div>
+    <!-- Right Column: Stats -->
+    <div class="problem-stats">
+      
+      <div class="stat-card scroll-reveal delay-1">
+        <div class="stat-icon">🌡️</div>
+        <div class="stat-content">
           <div class="stat-number">
             +<span class="counter" data-target="1.2">0</span>°C
           </div>
           <p>Global temperature rise since the pre-industrial era.</p>
         </div>
+      </div>
 
-
-        <div class="stat-card scroll-reveal delay-2">
-          <div class="stat-icon">☁️</div>
+      <div class="stat-card scroll-reveal delay-2">
+        <div class="stat-icon">☁️</div>
+        <div class="stat-content">
           <div class="stat-number">
             <span class="counter" data-target="424">0</span> ppm
           </div>
           <p>Current CO2 concentration, the highest in 2 million years.</p>
         </div>
+      </div>
 
-
-        <div class="stat-card scroll-reveal delay-3">
-          <div class="stat-icon">🌊</div>
+      <div class="stat-card scroll-reveal delay-3">
+        <div class="stat-icon">🌊</div>
+        <div class="stat-content">
           <div class="stat-number">
             <span class="counter" data-target="10">0</span> in
           </div>
           <p>Global average sea-level rise since 1880, accelerating rapidly.</p>
         </div>
-
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
 
   <section class="solutions-section" id="solutions">
@@ -214,100 +225,135 @@
   </section>
 
   <section class="how-it-works-section" id="process">
-    <div class="how-container">
+  <!-- Subtle animated background elements -->
+  <div class="bg-shape shape-blue"></div>
+  <div class="bg-shape shape-cyan"></div>
 
-
-      <div class="section-header scroll-reveal">
-        <div class="badge-blue">⚙️ The Process</div>
-        <h2 class="section-title text-dark">
-          From Data to <span class="text-blue">Decarbonization.</span>
-        </h2>
-        <p class="section-description text-gray">
-          A seamless integration into your existing infrastructure. Here is how our technology drives your transition to
-          net-zero.
-        </p>
+  <div class="how-container">
+    
+    <!-- Header -->
+    <div class="section-header scroll-reveal">
+      <div class="badge-blue">
+        <span class="gear-icon">⚙️</span> The Process
       </div>
-
-
-      <div class="timeline">
-
-
-        <div class="timeline-item left scroll-reveal delay-1">
-          <div class="timeline-dot">1</div>
-          <div class="timeline-content">
-            <h3>Data Integration & Sensors</h3>
-            <p>We connect our IoT sensors and API protocols directly to your supply chain, energy grids, and daily
-              operations to gather real-time emissions data.</p>
-          </div>
-        </div>
-
-
-        <div class="timeline-item right scroll-reveal delay-2">
-          <div class="timeline-dot">2</div>
-          <div class="timeline-content">
-            <h3>AI-Powered Analysis</h3>
-            <p>Our machine learning algorithms process millions of data points to identify carbon leaks, energy waste,
-              and operational inefficiencies.</p>
-          </div>
-        </div>
-
-
-        <div class="timeline-item left scroll-reveal delay-3">
-          <div class="timeline-dot">3</div>
-          <div class="timeline-content">
-            <h3>Actionable Reduction Plan</h3>
-            <p>The dashboard provides automated, step-by-step strategies to cut emissions. It reroutes energy loads and
-              suggests green alternatives instantly.</p>
-          </div>
-        </div>
-
-
-        <div class="timeline-item right scroll-reveal delay-4">
-          <div class="timeline-dot">4</div>
-          <div class="timeline-content">
-            <h3>Verified Offsetting</h3>
-            <p>For unavoidable emissions, our blockchain ledger automatically purchases high-quality, verified carbon
-              credits to ensure you hit true Net-Zero.</p>
-          </div>
-        </div>
-
-      </div>
+      <h2 class="section-title text-dark">
+        From Data to <br class="mobile-break">
+        <span class="text-blue animated-gradient-blue">Decarbonization.</span>
+      </h2>
+      <p class="section-description text-gray">
+        A seamless integration into your existing infrastructure. Here is how our technology drives your transition to net-zero.
+      </p>
     </div>
-  </section>
 
+    <!-- Timeline -->
+    <div class="timeline">
+      <!-- The central glowing line -->
+      <div class="timeline-line"></div>
 
-  <section class="impact-section">
-    <div class="impact-container">
-
-      <div class="impact-header scroll-reveal">
-        <h2 class="section-title">Our Global Impact</h2>
-        <p class="section-description">Real-time data from our deployed climate solutions.</p>
-      </div>
-
-      <div class="impact-grid">
-
-        <div class="impact-card scroll-reveal">
-          <div class="stat-number"><span class="counter" data-target="15000">0</span>+</div>
-          <p class="stat-label">Tons CO₂ Reduced</p>
-        </div>
-
-        <div class="impact-card scroll-reveal delay-1">
-          <div class="stat-number"><span class="counter" data-target="450">0</span>+</div>
-          <p class="stat-label">Green Projects</p>
-        </div>
-
-        <div class="impact-card scroll-reveal delay-2">
-          <div class="stat-number"><span class="counter" data-target="2.5">0</span>M</div>
-          <p class="stat-label">Trees Equivalent</p>
-        </div>
-
-        <div class="impact-card scroll-reveal delay-3">
-          <div class="stat-number"><span class="counter" data-target="98">0</span>%</div>
-          <p class="stat-label">Efficiency Gain</p>
+      <!-- Item 1 -->
+      <div class="timeline-item left scroll-reveal delay-1">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <h3>Data Integration & Sensors</h3>
+          <p>We connect our IoT sensors and API protocols directly to your supply chain, energy grids, and daily
+            operations to gather real-time emissions data.</p>
         </div>
       </div>
+
+      <!-- Item 2 -->
+      <div class="timeline-item right scroll-reveal delay-2">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <h3>AI-Powered Analysis</h3>
+          <p>Our machine learning algorithms process millions of data points to identify carbon leaks, energy waste,
+            and operational inefficiencies.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="timeline-item left scroll-reveal delay-3">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <h3>Actionable Reduction Plan</h3>
+          <p>The dashboard provides automated, step-by-step strategies to cut emissions. It reroutes energy loads and
+            suggests green alternatives instantly.</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="timeline-item right scroll-reveal delay-4">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <h3>Verified Offsetting</h3>
+          <p>For unavoidable emissions, our blockchain ledger automatically purchases high-quality, verified carbon
+            credits to ensure you hit true Net-Zero.</p>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="impact-section" id="impact">
+  <!-- Animated Background Orbs -->
+  <div class="impact-bg-orb orb-1"></div>
+  <div class="impact-bg-orb orb-2"></div>
+
+  <div class="impact-container">
+    
+    <!-- Header -->
+    <div class="impact-header scroll-reveal">
+      <div class="badge-green">🌱 Tangible Results</div>
+      <h2 class="section-title text-white">
+        Our Global <span class="text-gradient-green">Impact</span>
+      </h2>
+      <p class="section-description">
+        Real-time data from our deployed climate solutions. This is what saving the planet looks like in numbers.
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="impact-grid">
+      
+      <div class="impact-card scroll-reveal float-1">
+        <div class="card-icon">🏭</div>
+        <div class="stat-number">
+          <span class="counter" data-target="15000">0</span>+
+        </div>
+        <p class="stat-label">Tons CO₂ Reduced</p>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="impact-card scroll-reveal delay-1 float-2">
+        <div class="card-icon">⚡</div>
+        <div class="stat-number">
+          <span class="counter" data-target="450">0</span>+
+        </div>
+        <p class="stat-label">Green Projects</p>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="impact-card scroll-reveal delay-2 float-3">
+        <div class="card-icon">🌳</div>
+        <div class="stat-number">
+          <span class="counter" data-target="2.5">0</span>M
+        </div>
+        <p class="stat-label">Trees Equivalent</p>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="impact-card scroll-reveal delay-3 float-4">
+        <div class="card-icon">📈</div>
+        <div class="stat-number">
+          <span class="counter" data-target="98">0</span>%
+        </div>
+        <p class="stat-label">Efficiency Gain</p>
+        <div class="card-glow"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
   <section class="projects-section" id="projects">
     <div class="projects-container">
@@ -370,41 +416,96 @@
   </section>
 
   <section class="trust-section" id="about">
-    <div class="trust-container">
+  <!-- Subtle animated background grid -->
+  <div class="trust-bg-grid"></div>
 
-      <div class="section-header scroll-reveal">
-        <h2 class="section-title">Trusted by Industry Leaders</h2>
-      </div>
+  <div class="trust-container">
 
-      <div class="trust-grid">
-        <div class="trust-card scroll-reveal">
-          <p>"EcoTech transformed our energy consumption. Their AI solution is a game changer for the industry."</p>
-          <div class="author">- Jane Doe, CEO at GreenEnergy</div>
+    <!-- TESTIMONIALS HEADER -->
+    <div class="section-header scroll-reveal">
+      <div class="badge-outline">⭐ Wall of Love</div>
+      <h2 class="section-title text-white">
+        Trusted by <span class="text-gradient-gold">Industry Leaders</span>
+      </h2>
+    </div>
+
+    <!-- TESTIMONIALS GRID -->
+    <div class="trust-grid">
+      
+      <div class="trust-card scroll-reveal">
+        <div class="quote-mark">“</div>
+        <div class="stars">★★★★★</div>
+        <p class="quote-text">
+          "EcoTech transformed our energy consumption. Their AI solution is an absolute game changer for the industrial sector, allowing us to see leaks we didn't know existed."
+        </p>
+        <div class="author-info">
+          <div class="author-avatar avatar-1">JD</div>
+          <div class="author-details">
+            <span class="author-name">Jane Doe</span>
+            <span class="author-role">CEO at GreenEnergy</span>
+          </div>
         </div>
-        <div class="trust-card scroll-reveal delay-1">
-          <p>"Finally, a platform that makes carbon tracking transparent, accurate, and truly actionable."</p>
-          <div class="author">- John Smith, CTO at UrbanSystems</div>
+      </div>
+
+      <div class="trust-card scroll-reveal delay-1">
+        <div class="quote-mark">“</div>
+        <div class="stars">★★★★★</div>
+        <p class="quote-text">
+          "Finally, a platform that makes carbon tracking transparent, accurate, and truly actionable. We hit our ESG goals a full year ahead of schedule."
+        </p>
+        <div class="author-info">
+          <div class="author-avatar avatar-2">JS</div>
+          <div class="author-details">
+            <span class="author-name">John Smith</span>
+            <span class="author-role">CTO at UrbanSystems</span>
+          </div>
         </div>
       </div>
 
-      <div class="section-header scroll-reveal" style="margin-top: 6rem;">
-        <h2 class="section-title">The Climate Innovators</h2>
-      </div>
+    </div>
 
-      <div class="team-grid">
-        <div class="team-member scroll-reveal">
-          <div class="member-img"><img src="./asset/clim4.webp" alt=""></div>
+    <!-- TEAM HEADER -->
+    <div class="section-header scroll-reveal" style="margin-top: 8rem;">
+      <div class="badge-outline">🧠 The Minds Behind It</div>
+      <h2 class="section-title text-white">
+        The Climate <span class="text-gradient-blue">Innovators</span>
+      </h2>
+    </div>
+
+    <!-- TEAM GRID -->
+    <div class="team-grid">
+      
+      <div class="team-member scroll-reveal float-element">
+        <div class="img-wrapper">
+          <img src="./asset/clim4.webp" alt="Machi Name">
+          <div class="social-overlay">
+            <a href="404.html" class="social-icon">in</a>
+            <a href="404.html" class="social-icon">𝕏</a>
+          </div>
+        </div>
+        <div class="member-info">
           <h3>Machi Name</h3>
           <p>Founder & Lead Scientist</p>
         </div>
-        <div class="team-member scroll-reveal delay-1">
-          <div class="member-img"><img src="./asset/clim5.webp" alt=""></div>
-          <h3>Team Member</h3>
+      </div>
+
+      <div class="team-member scroll-reveal delay-1 float-element-alt">
+        <div class="img-wrapper">
+          <img src="./asset/clim5.webp" alt="Team Member">
+          <div class="social-overlay">
+            <a href="404.html" class="social-icon">in</a>
+            <a href="404.html" class="social-icon">𝕏</a>
+          </div>
+        </div>
+        <div class="member-info">
+          <h3>Alex River</h3>
           <p>Head of AI Research</p>
         </div>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
   <section class="blog-section" id="blog">
     <div class="blog-container">
@@ -606,6 +707,68 @@
       }
 
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 5000); // Changes image every 5 seconds
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. SCROLL REVEAL LOGIC
+  const revealElements = document.querySelectorAll(".scroll-reveal");
+  
+  const revealOptions = {
+    threshold: 0.2, // Triggers when 20% of the element is visible
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      
+      // Add 'active' class to trigger CSS transition
+      entry.target.classList.add("active");
+      
+      // If the element has counters, start them
+      const counters = entry.target.querySelectorAll(".counter");
+      counters.forEach(counter => animateCounter(counter));
+      
+      // Stop observing once revealed
+      observer.unobserve(entry.target);
+    });
+  }, revealOptions);
+
+  revealElements.forEach(el => revealOnScroll.observe(el));
+
+  // 2. NUMBER COUNTER ANIMATION
+  function animateCounter(counter) {
+    const target = parseFloat(counter.getAttribute("data-target"));
+    const duration = 2000; // 2 seconds
+    const frameRate = 30; // ms per frame
+    const totalFrames = duration / frameRate;
+    const increment = target / totalFrames;
+    let current = 0;
+    
+    // Check if the number has a decimal point
+    const isDecimal = target % 1 !== 0; 
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      // Format number: 1 decimal place if needed, else whole number
+      counter.innerText = isDecimal ? current.toFixed(1) : Math.floor(current);
+    }, frameRate);
+  }
+});
 
 
   </script>
