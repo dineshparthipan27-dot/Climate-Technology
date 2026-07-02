@@ -1066,6 +1066,9 @@
   position: relative;
   z-index: 2;
 }
+.wh{
+  color: white !important;
+}
 
 .badge-accent {
   display: inline-block;
@@ -1299,7 +1302,7 @@
 }
 
 .text-white {
-  color: #fff;
+  color: #fafafa;
   font-size: clamp(2.5rem, 4vw, 3.5rem);
   margin-top: 15px;
 }
